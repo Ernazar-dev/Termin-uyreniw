@@ -1,0 +1,62 @@
+@use '../../../styles/tokens' as *;
+@include enter-motion;
+
+.page { max-width: 1240px; margin: auto; padding: 0 48px; }
+.header { height: 100px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid $color-border; gap: 20px; }
+.brand { display: inline-flex; align-items: center; gap: 12px; color: $color-text; font-size: 17px; font-weight: 650; letter-spacing: -0.5px; }
+.brandMark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: $color-primary; color: white; font-size: 18px; }
+.nav { display: flex; align-items: center; gap: 32px; }
+.navLink, .secondaryLink { color: $color-text-secondary; font-size: 14px; transition: color 180ms ease; &:hover { color: $color-primary; } }
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 64px; padding: 90px 0 82px; }
+.heroCopy { animation: page-enter 650ms ease both; }
+.badge { display: inline-flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 650; letter-spacing: 1.8px; color: $color-primary; > span { width: 6px; height: 6px; background: $color-primary; border-radius: 50%; } }
+.title { margin: 24px 0 !important; font-size: clamp(40px, 4.5vw, 62px) !important; line-height: 1.13 !important; letter-spacing: -2.7px !important; font-weight: 600 !important; span { color: $color-primary; } }
+.lead { max-width: 440px; font-size: 16px; color: $color-text-secondary; line-height: 1.85; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-top: 30px; :global(.ant-btn) { padding-inline: 22px; } }
+.secondaryLink { display: inline-flex; gap: 14px; }
+.heroNote { display: flex; align-items: center; gap: 13px; margin-top: 36px; font-size: 11px; color: $color-text-secondary; strong { font-weight: 500; color: $color-text; font-size: 12px; } }
+.grade { display: grid; place-items: center; width: 43px; height: 43px; border: 1px solid $color-border; border-radius: 50%; font-size: 13px; font-weight: 600; color: $color-primary; }
+.visual { padding: 27px; background: #eaf0e6; border: 1px solid #e0e7dc; border-radius: 24px; animation: page-enter 750ms 100ms ease both; }
+.visualTop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; color: #63755f; font-size: 10px; letter-spacing: 1.5px; > span:first-child { display: flex; align-items: center; gap: 10px; } }
+.lesson { padding: 26px; border-radius: 15px; background: #fffefa; border: 1px solid #e3e7dc; box-shadow: 0 14px 36px #344b3210; transform: rotate(-2deg); transition: transform 300ms ease; h2 { margin: 25px 0 12px; font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: 44px; letter-spacing: -1.8px; } > p { font-size: 14px; color: $color-text-secondary; line-height: 1.8; } }
+@media (hover: hover) { .visual:hover .lesson { transform: rotate(0); } }
+.lessonMeta { display: flex; justify-content: space-between; gap: 8px; align-items: center; font-size: 9px; letter-spacing: 1px; color: $color-text-secondary; }
+.lessonTag { background: #f0f2e9; border-radius: 5px; padding: 4px 9px; letter-spacing: 0; }
+.example { margin: 22px 0; padding: 14px 17px; border-left: 2px solid #bdcdab; background: #f5f6ef; > span { display: block; color: $color-text-secondary; font-size: 11px; margin-bottom: 4px; } strong { font-size: 17px; font-weight: 500; span { padding-inline: 12px; color: #829076; } } }
+.lessonFooter { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid $color-border; font-size: 10px; color: $color-primary; }
+.learningPath { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 29px; font-size: 10px; color: $color-text-secondary; > span { display: flex; align-items: center; gap: 5px; } i { flex: 1; height: 1px; background: #cdd7c5; } b { display: inline-grid; place-items: center; width: 21px; height: 21px; border: 1px solid #c4d0bc; border-radius: 50%; font-size: 9px; font-weight: 500; } > span:first-child b { background: $color-primary; border-color: $color-primary; color: white; } }
+.visualBottom { margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 10px; color: #6b7c63; strong { font-size: 14px; } }
+.featuresSection { scroll-margin-top: 30px; padding: 38px 0 64px; border-top: 1px solid $color-border; }
+.sectionHead { display: flex; justify-content: space-between; gap: 20px; align-items: end; margin-bottom: 26px; h2 { font-size: 25px; font-weight: 550; letter-spacing: -0.9px; margin: 8px 0 0; } > p { font-size: 12px; color: $color-text-secondary; } }
+.eyebrow { font-size: 9px; font-weight: 600; color: $color-primary; letter-spacing: 1.8px; }
+.features { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.feature { padding: 24px; border: 1px solid $color-border; border-radius: 14px; background: $color-surface; h3 { margin: 23px 0 8px; font-size: 15px; font-weight: 600; letter-spacing: -0.3px; } p { margin: 0; color: $color-text-secondary; font-size: 12px; line-height: 1.85; } }
+.featureTop { display: flex; justify-content: space-between; align-items: center; }
+.featureIcon { display: grid; place-items: center; width: 37px; height: 37px; border-radius: 10px; background: $color-primary-soft; color: $color-primary; font-size: 17px; }
+.featureNumber { font-size: 10px; color: #7a887d; font-variant-numeric: tabular-nums; }
+.footer { display: flex; justify-content: space-between; gap: 20px; padding: 24px 0; border-top: 1px solid $color-border; font-size: 11px; color: $color-text-secondary; > span:first-child { font-weight: 600; color: $color-text; } }
+@include below($bp-lg) {
+  .page { padding: 0 28px; }
+  .hero { gap: 32px; padding: 60px 0; }
+  .visual, .lesson { padding: 20px; }
+  .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@include below($bp-md) {
+  .page { padding: 0 20px; }
+  .header { height: 80px; }
+  .navLink { display: none; }
+  .brand { font-size: 15px; gap: 8px; }
+  .hero { grid-template-columns: minmax(0, 1fr); padding: 46px 0; gap: 40px; }
+  .title { font-size: clamp(38px, 8vw, 56px) !important; letter-spacing: -1.8px !important; }
+  .visual { width: 100%; max-width: 470px; justify-self: center; }
+  .sectionHead { align-items: start; flex-direction: column; gap: 4px; }
+  .sectionHead h2 { font-size: 23px; }
+  .features { gap: 12px; }
+  .feature { padding: 18px; }
+  .footer { font-size: 10px; }
+}
+@media (max-width: 380px) {
+  .features { grid-template-columns: 1fr; }
+  .learningPath { gap: 4px; font-size: 9px; }
+  .brandMark { width: 34px; height: 34px; }
+}

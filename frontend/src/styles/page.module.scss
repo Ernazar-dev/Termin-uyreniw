@@ -1,0 +1,115 @@
+@use './tokens' as *;
+
+// Layout helpers shared by pages
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+
+  // PageHeader has its own bottom margin; the stack gap already spaces it
+  > header {
+    margin-bottom: 0;
+  }
+}
+
+.stackSm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: $space-4;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  margin-bottom: $space-4;
+
+  > * {
+    flex: 0 1 260px;
+    min-width: 0;
+    @include below($bp-sm) { flex-basis: 100%; }
+  }
+}
+
+.termToolbar {
+  padding: $space-4;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  > :first-child { flex: 0 1 400px; }
+  @include below($bp-sm) { > :first-child { flex-basis: 100%; } }
+}
+
+.sectionTitle {
+  margin: 0 0 $space-3 !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $space-3;
+}
+
+.narrow {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: $space-5;
+  align-items: start;
+
+  > * { min-width: 0; }
+
+  @include below($bp-lg) { grid-template-columns: minmax(0, 1fr); }
+}
+
+.sidePanel {
+  position: sticky;
+  top: 0;
+  padding: $space-5;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+
+  @include below($bp-lg) { position: static; }
+}
+
+.termNav {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  max-height: 55dvh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  a {
+    padding: 10px 12px;
+    border-radius: $radius-md;
+    color: $color-text-secondary;
+    overflow-wrap: anywhere;
+    &:hover { background: $color-bg; }
+    &[aria-current='page'] { background: $color-primary-soft; color: $color-primary; font-weight: 600; }
+  }
+}
+
+.questionNav {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: $space-2;
+  max-height: 45dvh;
+  overflow-y: auto;
+  margin-block: $space-4;
+}

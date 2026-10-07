@@ -1,0 +1,70 @@
+@use '../../styles/tokens' as *;
+
+.header {
+  --tone: #{$color-primary};
+  --tone-soft: #{$color-primary-soft};
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3 $space-4;
+  margin-bottom: $space-5;
+}
+
+.indigo { --tone: #{$color-primary}; --tone-soft: #{$color-primary-soft}; }
+.amber { --tone: #{$color-warning}; --tone-soft: #{$color-accent-soft}; }
+.teal { --tone: #{$color-teal}; --tone-soft: #{$color-teal-soft}; }
+.pink { --tone: #{$color-pink}; --tone-soft: #{$color-pink-soft}; }
+.violet { --tone: #7c3aed; --tone-soft: #f1eaff; }
+
+// Admin pages: a soft tinted banner so the page does not start with a bare white void
+.banner {
+  padding: 18px 22px;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background: linear-gradient(100deg, var(--tone-soft) 0%, #ffffff 70%);
+  box-shadow: $shadow-card;
+
+  @include below($bp-md) { padding: 14px 16px; }
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  min-width: 0;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--tone);
+  color: #fff;
+  font-size: 21px;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--tone) 35%, transparent);
+}
+
+.texts {
+  min-width: 0;
+}
+
+.title {
+  margin: 0 !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em;
+
+  @include below($bp-md) {
+    font-size: 20px !important;
+  }
+}
+
+.extra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}

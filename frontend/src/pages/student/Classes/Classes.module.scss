@@ -1,0 +1,106 @@
+@use '../../../styles/tokens' as *;
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: $space-4;
+}
+
+.card {
+  --tone: #{$color-primary};
+  --tone-soft: #{$color-primary-soft};
+  position: relative;
+  overflow: hidden;
+  animation: rise 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  // Coloured strip on top makes each class easy to recognise at a glance.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 5px;
+    background: var(--tone);
+  }
+
+  :global(.ant-card-body) { padding: 22px; }
+
+  &:hover {
+    border-color: var(--tone) !important;
+    .icon { transform: rotate(-8deg) scale(1.08); }
+    .open { gap: 12px; }
+  }
+}
+
+.indigo { --tone: #{$color-primary}; --tone-soft: #{$color-primary-soft}; }
+.amber { --tone: #{$color-warning}; --tone-soft: #{$color-accent-soft}; }
+.teal { --tone: #{$color-teal}; --tone-soft: #{$color-teal-soft}; }
+.pink { --tone: #{$color-pink}; --tone-soft: #{$color-pink-soft}; }
+.violet { --tone: #7c3aed; --tone-soft: #f1eaff; }
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--tone-soft);
+  color: var(--tone);
+  font-size: 22px;
+  transition: transform 220ms ease;
+}
+
+.name {
+  margin: 18px 0 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: $color-text;
+  overflow-wrap: anywhere;
+}
+
+.cardFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $space-4;
+  padding-top: 14px;
+  border-top: 1px solid $color-border;
+}
+
+.count {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: $color-bg;
+  color: $color-text-secondary;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.open {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tone);
+  cursor: pointer;
+  transition: gap 200ms ease;
+}

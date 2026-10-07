@@ -1,0 +1,143 @@
+@use '../../styles/tokens' as *;
+@include enter-motion;
+
+$sidebar-top: #1e1b4b;
+$sidebar-bottom: #3b2f8f;
+
+.layout {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.main { height: 100%; min-width: 0; overflow: hidden; }
+
+// Dark gradient sidebar: the admin panel feels different from the bright student side
+.sider {
+  position: fixed !important;
+  inset: 0 auto 0 0;
+  height: 100dvh;
+  overflow-y: auto;
+  z-index: 20;
+  background: linear-gradient(180deg, $sidebar-top 0%, $sidebar-bottom 100%) !important;
+  box-shadow: 4px 0 24px rgba(30, 27, 75, 0.12);
+}
+
+.darkDrawer :global(.ant-drawer-content) {
+  background: linear-gradient(180deg, $sidebar-top 0%, $sidebar-bottom 100%);
+}
+
+.mainWithSider {
+  margin-left: 248px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  height: 76px;
+  padding: 0 $space-5;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.brandLogo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: $radius-md;
+  background: #ffffff;
+  padding: 3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 180ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: $radius-md;
+  background: $gradient-brand;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.brandText {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.menu {
+  border-inline-end: none !important;
+  background: transparent !important;
+  padding: $space-2 0;
+  :global(.ant-menu-item) { margin-block: 3px; }
+  :global(.ant-menu-item a) { color: inherit; }
+  :global(.ant-menu-item-selected) {
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(79, 70, 229, 0.45);
+  }
+}
+
+.navCaption {
+  margin: 26px 26px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.headerLabel { font-size: 16px; font-weight: 700; color: $color-text; letter-spacing: -0.01em; }
+.pageEnter { animation: page-enter 350ms ease both; }
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  flex: 0 0 68px;
+  border-bottom: 1px solid $color-border;
+
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(14px);
+
+  @include below($bp-md) {
+    padding: 0 $space-4 !important;
+  }
+}
+
+.headerExtra {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 28px 32px 40px;
+
+  @include below($bp-md) {
+    padding: $space-4;
+  }
+}

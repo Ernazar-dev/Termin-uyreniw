@@ -1,0 +1,97 @@
+@use '../../styles/tokens' as *;
+@include enter-motion;
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.1); }
+}
+
+.page {
+  height: 100dvh;
+  overflow-y: auto;
+  display: flex;
+  padding: 20px;
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(150deg, #eef0ff 0%, $color-bg 45%, #fff1f7 100%);
+
+  // Soft animated colour blobs behind the form.
+  &::before,
+  &::after {
+    content: '';
+    position: fixed;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+    animation: drift 16s ease-in-out infinite;
+    pointer-events: none;
+  }
+  &::before { width: 360px; height: 360px; top: -120px; left: -100px; background: #a5b4fc; }
+  &::after { width: 320px; height: 320px; bottom: -120px; right: -80px; background: #f9a8d4; animation-delay: -8s; }
+}
+.wrapper {
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+  flex-shrink: 0;
+  animation: page-enter 300ms ease both;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: $color-text;
+  font-size: 16px;
+  font-weight: 600;
+  &:hover { color: $color-primary; }
+}
+.brandLogo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transition: transform 180ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: $radius-md;
+  background: $gradient-brand;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.3);
+  font-size: 15px;
+  font-weight: 700;
+}
+.card {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 24px 60px rgba(79, 70, 229, 0.12);
+  :global(.ant-card-body) { padding: 30px; }
+  :global(.ant-form-item) { margin-bottom: 14px; }
+  :global(.ant-form-item-label) { padding-bottom: 4px; }
+  :global(.ant-typography) { line-height: 1.5; }
+}
+.title { margin: 0 0 6px !important; font-size: 26px !important; font-weight: 800 !important; letter-spacing: -0.02em; }
+.footer { margin-top: 14px; text-align: center; color: $color-text-secondary; font-size: 13px; }
+.back { display: block; width: fit-content; margin: 12px auto 0; color: $color-text-secondary; font-size: 12px; }
+@media (max-height: 740px) {
+  .page { padding-block: 12px; }
+  .brand { margin-bottom: 12px; }
+  .card {
+    :global(.ant-card-body) { padding: 18px 22px; }
+    :global(.ant-form-item) { margin-bottom: 10px; }
+    :global(.ant-form-item-label) { padding-bottom: 2px; }
+  }
+  .footer { margin-top: 10px; }
+}

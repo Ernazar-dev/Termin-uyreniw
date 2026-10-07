@@ -1,0 +1,20 @@
+@use '../../styles/tokens' as *;
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.letter {
+  flex-shrink: 0;
+  width: 20px;
+  font-weight: 600;
+  color: $color-text-secondary;
+}

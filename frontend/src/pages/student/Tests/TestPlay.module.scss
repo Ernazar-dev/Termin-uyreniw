@@ -1,0 +1,107 @@
+@use '../../../styles/tokens' as *;
+
+// Sheet on the left, answer letters on the right (stacked on small screens)
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+  gap: $space-4;
+  align-items: start;
+
+  @media (max-width: 1199px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.fileCard {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.documentControls { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 10px; border-bottom: 1px solid $color-border; }
+.documentBody { padding: 16px; max-height: calc(100dvh - 280px); min-height: 240px; overflow: auto; background: #fff; }
+.pdfCanvas { width: 100%; height: auto; }
+.wordText { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.9; }
+.readerText { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+.fileBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: 12px 16px;
+  border-bottom: 1px solid $color-border;
+  background: $color-primary-soft;
+}
+
+.fileActions {
+  display: flex;
+  flex-shrink: 0;
+  gap: $space-2;
+}
+
+.viewer {
+  display: block;
+  width: 100%;
+  height: calc(100dvh - 230px);
+  min-height: 460px;
+  border: 0;
+  background: #f1f2f8;
+}
+
+.noPreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-2;
+  padding: 36px 20px;
+  text-align: center;
+
+  > :global(.anticon) { font-size: 44px; color: $color-primary; }
+}
+
+.sheetCard {
+  position: sticky;
+  top: 0;
+
+  @media (max-width: 1199px) { position: static; }
+}
+
+.rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px 14px;
+  max-height: calc(100dvh - 400px);
+  min-height: 120px;
+  margin: $space-4 0;
+  padding-right: 4px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  @media (max-width: 1199px) { max-height: none; }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.number {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: $color-bg;
+  color: $color-text-secondary;
+  font-weight: 700;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.submit {
+  margin-top: $space-2;
+}

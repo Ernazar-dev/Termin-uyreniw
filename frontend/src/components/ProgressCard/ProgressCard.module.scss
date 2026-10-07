@@ -1,0 +1,35 @@
+@use '../../styles/tokens' as *;
+
+.card {
+  height: 100%;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $space-2;
+}
+
+.title {
+  margin: 0 0 $space-2 !important;
+}
+
+.arrow {
+  margin-top: 6px;
+  color: $color-text-secondary;
+}
+
+.description {
+  margin-bottom: $space-3 !important;
+}
+
+.caption {
+  font-size: 13px;
+}
+
+.footer {
+  margin-top: $space-3;
+  padding-top: $space-3;
+  border-top: 1px solid $color-border;
+}

@@ -1,0 +1,234 @@
+@use '../styles/tokens' as *;
+@include enter-motion;
+
+$header-height: 68px;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  background: $color-bg;
+}
+
+/* ---------- Top bar ---------- */
+
+.header {
+  position: relative;
+  z-index: 20;
+  flex: 0 0 $header-height;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid $color-border;
+}
+
+.headerInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: $space-5;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px;
+
+  @include below($bp-xl) { grid-template-columns: 1fr auto; }
+
+  @include below($bp-md) {
+    gap: $space-3;
+    padding: 0 $space-4;
+  }
+}
+
+.brand {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  flex-shrink: 0;
+  color: $color-text;
+
+  &:hover {
+    color: $color-text;
+  }
+
+  img {
+    width: 32px;
+    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+    transition: transform 180ms ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.brandLogo {
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  max-height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  transition: transform 180ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-md;
+  background: $gradient-brand;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
+  flex-shrink: 0;
+}
+
+.brandText {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.nav {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: $color-text-secondary;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 180ms ease, color 180ms ease;
+
+  &:hover {
+    color: $color-text;
+    background: $color-bg;
+  }
+
+  &.active {
+    color: $color-primary;
+    background: $color-primary-soft;
+    font-weight: 600;
+  }
+}
+
+.linkIcon {
+  display: inline-flex;
+  font-size: 15px;
+}
+
+.headerEnd {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  flex-shrink: 0;
+  @include below($bp-xl) { grid-column: 2; }
+}
+
+.searchPopover {
+  width: 300px;
+}
+
+/* ---------- Mobile drawer ---------- */
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: $header-height;
+  padding: 0 $space-3 0 $space-5;
+  border-bottom: 1px solid $color-border;
+}
+
+.drawerSearch {
+  padding: $space-4 $space-4 $space-2;
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: $space-2 $space-3;
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  height: 44px;
+  padding: 0 $space-3;
+  border-radius: $radius-md;
+  color: $color-text;
+  font-weight: 500;
+
+  &:hover {
+    color: $color-text;
+    background: $color-bg;
+  }
+
+  &.active {
+    color: $color-primary;
+    background: $color-primary-soft;
+    font-weight: 600;
+  }
+}
+
+.drawerAuth {
+  padding: $space-3 $space-4;
+}
+
+/* ---------- Content ---------- */
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.contentInner {
+  width: 100%;
+  margin: 0 auto;
+  padding: 28px clamp(24px, 3.5vw, 72px) 40px;
+
+  @include below($bp-md) {
+    padding: $space-4;
+  }
+}
+
+.pageEnter {
+  animation: page-enter 350ms ease both;
+}

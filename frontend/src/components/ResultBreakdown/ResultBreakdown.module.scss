@@ -1,0 +1,65 @@
+@use '../../styles/tokens' as *;
+
+.circle {
+  display: flex;
+  justify-content: center;
+}
+
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.questionHead {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-2;
+  margin-bottom: $space-3;
+}
+
+.iconCorrect {
+  margin-top: 4px;
+  color: $color-success;
+}
+
+.iconWrong {
+  margin-top: 4px;
+  color: $color-error;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-2 $space-3;
+    border-radius: $radius-md;
+  }
+}
+
+.letter {
+  font-weight: 600;
+  color: $color-text-secondary;
+}
+
+.optionText {
+  flex: 1;
+  min-width: 0;
+}
+
+.correct {
+  background: $color-success-soft;
+}
+
+.wrong {
+  background: $color-error-soft;
+}

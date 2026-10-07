@@ -1,0 +1,145 @@
+@use '../../../styles/tokens' as *;
+@include enter-motion;
+
+.page {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.chat {
+  height: min(680px, calc(100dvh - 230px));
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  padding: $space-5;
+
+  @include below($bp-md) {
+    padding: $space-4;
+  }
+}
+
+.intro {
+  margin: auto;
+  width: min(100%, 560px);
+  padding: $space-4 0;
+  text-align: center;
+}
+
+.introIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: $color-primary-soft;
+  margin-bottom: $space-4;
+  font-size: 30px;
+  color: $color-primary;
+}
+
+.examples {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $space-2;
+  margin-top: $space-5;
+
+  :global(.ant-btn) {
+    height: auto;
+    min-height: 64px;
+    padding: 12px;
+    white-space: normal;
+    text-align: left;
+    background: $color-bg;
+  }
+  @include below($bp-sm) { grid-template-columns: 1fr; }
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-3;
+  max-width: 85%;
+  animation: page-enter 240ms ease both;
+
+  @include below($bp-md) {
+    max-width: 100%;
+  }
+}
+
+.user {
+  flex-direction: row-reverse;
+  align-self: flex-end;
+
+  .bubble {
+    background: $color-primary;
+    color: #fff;
+  }
+
+  .avatar {
+    background: $color-primary !important;
+  }
+}
+
+.assistant {
+  align-self: flex-start;
+
+  .avatar {
+    background: $color-primary-soft !important;
+    color: $color-primary !important;
+  }
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+.bubble {
+  min-width: 0;
+  max-width: 85ch;
+  padding: $space-3 $space-4;
+  border-radius: $radius-lg;
+  background: $color-bg;
+  line-height: 1.6;
+}
+
+.error {
+  background: $color-error-soft;
+  color: $color-error;
+}
+
+.text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.sourceTag {
+  margin-bottom: $space-2 !important;
+}
+
+.termLink {
+  display: inline-block;
+  margin-top: $space-2;
+  font-weight: 500;
+}
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  border-top: 1px solid $color-border;
+  background: #fafbff;
+}
+
+.sendLabel {
+  @include below($bp-sm) { display: none; }
+}

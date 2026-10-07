@@ -1,0 +1,143 @@
+@use './tokens' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: $color-bg;
+  color: $color-text;
+  -webkit-font-smoothing: antialiased;
+  // Guard against accidental horizontal scroll on small screens
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.65;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+// Long Karakalpak words must wrap instead of overflowing cards
+h1,
+h2,
+h3,
+h4,
+p {
+  overflow-wrap: anywhere;
+}
+
+.ant-table-wrapper {
+  max-width: 100%;
+}
+
+::selection { background: #dcdcff; color: $color-text; }
+html { scrollbar-color: #c9cbe0 transparent; }
+a { text-decoration: none; }
+:focus-visible { outline: 3px solid rgba(79, 70, 229, 0.45); outline-offset: 3px; }
+.ant-typography { letter-spacing: -0.015em; }
+.ant-card { box-shadow: $shadow-card; }
+.ant-card-hoverable {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+@media (hover: hover) {
+  .ant-card-hoverable:hover {
+    transform: translateY(-3px);
+    border-color: #c7c9ff;
+    box-shadow: $shadow-hover;
+  }
+  .ant-btn-primary:not(:disabled):hover { transform: translateY(-1px); }
+}
+.ant-btn { transition: background 180ms ease, border-color 180ms ease, transform 180ms ease; }
+.ant-btn:active:not(:disabled) { transform: translateY(0); }
+.ant-form-item-label > label { font-weight: 500; }
+.ant-tag { border-radius: 6px; }
+.ant-input-prefix { color: $color-text-secondary; margin-inline-end: 10px !important; }
+.ant-table-thead > tr > th { font-size: 12px; letter-spacing: 0.025em; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ---------- Modals: always fit the screen ----------
+// The dialog is at most one viewport tall; only its body scrolls, so the title and the
+// action buttons never leave the screen (no matter how long a form is).
+// Selectors start with `.ant-modal` to outrank Ant Design's own nested rules.
+.ant-modal {
+  max-width: calc(100vw - 24px);
+  margin-block: 0;
+  padding-bottom: 0;
+
+  .ant-modal-container {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 32px);
+    padding: 0 !important;
+    overflow: hidden;
+    border-radius: 20px !important;
+  }
+  .ant-modal-header {
+    flex: none;
+    margin: 0 !important;
+    padding: 18px 56px 14px 24px !important;
+    border-bottom: 1px solid $color-border;
+  }
+  .ant-modal-title { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .ant-modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 20px 24px !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .ant-modal-footer {
+    flex: none;
+    margin: 0 !important;
+    padding: 12px 24px 16px !important;
+    border-top: 1px solid $color-border;
+    background: #fafbff;
+  }
+  .ant-modal-close { top: 14px; }
+}
+
+// Confirm dialogs keep their compact look
+.ant-modal-confirm {
+  .ant-modal-container { overflow: visible; }
+  .ant-modal-body { padding: 24px !important; overflow: visible; }
+  .ant-modal-footer { padding: 0 24px 20px !important; border: 0; background: transparent; }
+}
+
+.modal-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.modal-footer-note { color: $color-text-secondary; font-size: 13px; }
+
+@media (max-width: 575px) {
+  .ant-modal .ant-modal-body { padding-inline: 16px !important; }
+  .ant-modal .ant-modal-header { padding-left: 16px !important; }
+  .ant-modal .ant-modal-footer { padding-inline: 16px !important; }
+  .modal-footer-row { justify-content: flex-end; }
+  .modal-footer-note { display: none; }
+}

@@ -1,0 +1,92 @@
+@use '../../styles/tokens' as *;
+
+.card {
+  height: 100%;
+}
+
+.cover {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: $color-bg;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.content {
+  min-width: 0;
+}
+
+.tag {
+  margin-bottom: $space-2 !important;
+  max-width: 100%;
+  white-space: normal !important;
+}
+
+.title {
+  margin: 0 0 $space-3 !important;
+}
+
+.titleFull {
+  margin: 0 0 $space-4 !important;
+  letter-spacing: -0.01em;
+}
+
+.section + .section {
+  margin-top: $space-3;
+}
+
+.label {
+  display: block;
+  margin-bottom: $space-1;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $color-primary !important;
+}
+
+.text {
+  margin-bottom: 0 !important;
+}
+
+.textFull {
+  margin-bottom: 0 !important;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.example {
+  padding-left: $space-3;
+  border-left: 3px solid $color-primary-soft;
+  font-style: italic;
+}
+
+// Image + text side by side; collapses to a single column on small screens
+.fullWithImage {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: $space-6;
+  align-items: start;
+
+  @include below($bp-md) {
+    grid-template-columns: 1fr;
+    gap: $space-5;
+  }
+}
+
+.fullImage {
+  border-radius: $radius-lg;
+  overflow: hidden;
+  background: $color-bg;
+
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+  }
+}

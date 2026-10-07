@@ -1,0 +1,177 @@
+@use '../../../styles/tokens' as *;
+
+@keyframes grow {
+  from { transform: scaleY(0.05); opacity: 0; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4 $space-5;
+  padding: 26px 30px;
+  border-radius: 24px;
+  background: $gradient-brand;
+  color: #fff;
+  box-shadow: 0 18px 40px rgba(79, 70, 229, 0.28);
+
+  // Decorative circles
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+  }
+  &::before { width: 240px; height: 240px; top: -110px; right: 6%; }
+  &::after { width: 160px; height: 160px; bottom: -90px; right: 28%; }
+
+  @include below($bp-md) { padding: 20px 18px; border-radius: 20px; }
+}
+
+.heroText {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+
+  h1 {
+    margin: 8px 0 2px;
+    color: #fff;
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  p { margin: 0; color: rgba(255, 255, 255, 0.82); font-size: 15px; }
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.actionButton {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  color: #fff !important;
+  backdrop-filter: blur(6px);
+
+  &:hover { background: rgba(255, 255, 255, 0.28) !important; }
+}
+
+.panel {
+  height: 100%;
+  :global(.ant-card-body) { padding: 22px; }
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-bottom: $space-4;
+}
+
+.panelTitle { margin: 0 !important; }
+
+.badge {
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: $color-primary-soft;
+  color: $color-primary;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+// ---- Activity chart ----
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 190px;
+  padding-top: 8px;
+}
+
+.barSlot {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+}
+
+.bar {
+  width: 100%;
+  max-width: 34px;
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(180deg, #7c3aed, $color-primary);
+  transform-origin: bottom;
+  animation: grow 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transition: filter 200ms ease;
+
+  &:hover { filter: brightness(1.15); }
+}
+
+.barEmpty { background: $color-border; }
+
+.barLabel { color: $color-text-secondary; font-size: 11px; }
+
+// ---- Classes ----
+.classList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.classTop {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-bottom: 6px;
+
+  span { color: $color-text-secondary; font-size: 13px; }
+}
+
+.track {
+  height: 8px;
+  border-radius: 999px;
+  background: $color-primary-soft;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, $color-primary, #7c3aed, $color-pink);
+  transition: width 600ms ease;
+}
+
+.classMeta { margin-top: 6px; color: $color-text-secondary; font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { animation: none; }
+}

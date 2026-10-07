@@ -1,0 +1,85 @@
+@use '../../styles/tokens' as *;
+
+.card {
+  --tone: #{$color-primary};
+  --tone-soft: #{$color-primary-soft};
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: $color-surface;
+  :global(.ant-card-body) { padding: 20px; }
+
+  // A soft coloured corner makes every statistic recognisable at a glance
+  &::after {
+    content: '';
+    position: absolute;
+    top: -38px;
+    right: -38px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--tone-soft);
+    transition: transform 300ms ease;
+  }
+
+  &:hover::after { transform: scale(1.25); }
+  &:hover .arrow { transform: translateX(3px); color: var(--tone); }
+}
+
+.indigo { --tone: #{$color-primary}; --tone-soft: #{$color-primary-soft}; }
+.amber { --tone: #{$color-warning}; --tone-soft: #{$color-accent-soft}; }
+.teal { --tone: #{$color-teal}; --tone-soft: #{$color-teal-soft}; }
+.pink { --tone: #{$color-pink}; --tone-soft: #{$color-pink-soft}; }
+.violet { --tone: #7c3aed; --tone-soft: #f1eaff; }
+.green { --tone: #{$color-success}; --tone-soft: #{$color-success-soft}; }
+
+.body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background: var(--tone);
+  color: #fff;
+  font-size: 22px;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--tone) 32%, transparent);
+}
+
+.texts {
+  min-width: 0;
+  flex: 1;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+}
+
+.value {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.hint {
+  font-size: 12px;
+}
+
+.arrow {
+  align-self: flex-start;
+  color: $color-text-secondary;
+  font-size: 13px;
+  transition: transform 200ms ease, color 200ms ease;
+}

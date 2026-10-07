@@ -1,0 +1,37 @@
+@use '../../styles/tokens' as *;
+
+.authActions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  flex-shrink: 0;
+}
+
+.userButton {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  max-width: 240px;
+  padding: $space-1;
+  border: none;
+  border-radius: 999px;
+  background: $color-primary-soft;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 180ms ease;
+
+  &:hover {
+    background: #e2e5ff;
+  }
+}
+
+.avatar {
+  flex-shrink: 0;
+  background: $color-surface !important;
+  color: $color-primary !important;
+}
+
+.userName {
+  max-width: 160px;
+  padding-right: $space-2;
+}

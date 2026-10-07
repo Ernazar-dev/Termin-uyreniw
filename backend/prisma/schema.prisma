@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  TEACHER
+  STUDENT
+}
+
+enum GameType {
+  MULTIPLE_CHOICE
+  FILL_BLANK
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  fullName  String
+  login     String   @unique
+  password  String
+  role      Role     @default(STUDENT)
+  /// Only students belong to a class
+  classId   Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  class       Class?            @relation(fields: [classId], references: [id], onDelete: SetNull)
+  terms       Term[]
+  tests       Test[]
+  testResults TestResult[]
+  progress    StudentProgress[]
+
+  @@index([role])
+  @@index([classId])
+}
+
+model Class {
+  id        Int      @id @default(autoincrement())
+  name      String
+  order     Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chapters Chapter[]
+  students User[]
+}
+
+model Chapter {
+  id          Int      @id @default(autoincrement())
+  classId     Int
+  title       String
+  description String?
+  startTopic  Int
+  endTopic    Int
+  order       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  class Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
+  terms Term[]
+  games Game[]
+  tests Test[]
+
+  @@unique([classId, order])
+}
+
+/// Class is derived through chapter (chapter.classId) to avoid duplicated data
+model Term {
+  id         Int      @id @default(autoincrement())
+  chapterId  Int
+  name       String
+  definition String
+  example    String?
+  image      String?
+  createdBy  Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  chapter  Chapter           @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  author   User?             @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  games    Game[]
+  progress StudentProgress[]
+
+  @@index([chapterId])
+  @@index([name])
+}
+
+/// Correct answer is stored on GameOption.isCorrect (single source of truth)
+model Game {
+  id        Int      @id @default(autoincrement())
+  chapterId Int
+  termId    Int?
+  type      GameType
+  question  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chapter Chapter      @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  term    Term?        @relation(fields: [termId], references: [id], onDelete: SetNull)
+  options GameOption[]
+
+  @@index([chapterId])
+}
+
+model GameOption {
+  id        Int     @id @default(autoincrement())
+  gameId    Int
+  text      String
+  isCorrect Boolean @default(false)
+
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([gameId])
+}
+
+model Test {
+  id          Int      @id @default(autoincrement())
+  chapterId   Int
+  title       String
+  description String?
+  /// Optional ready-made test sheet (PDF / Word) shown to students next to the answer sheet
+  fileUrl     String?
+  fileName    String?
+  createdBy   Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  chapter   Chapter        @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  author    User?          @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  questions TestQuestion[]
+  results   TestResult[]
+
+  @@index([chapterId])
+}
+
+model TestQuestion {
+  id       Int    @id @default(autoincrement())
+  testId   Int
+  question String
+  order    Int
+
+  test    Test            @relation(fields: [testId], references: [id], onDelete: Cascade)
+  options TestOption[]
+  answers StudentAnswer[]
+
+  @@index([testId])
+}
+
+model TestOption {
+  id         Int     @id @default(autoincrement())
+  questionId Int
+  text       String
+  isCorrect  Boolean @default(false)
+
+  question TestQuestion    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answers  StudentAnswer[]
+
+  @@index([questionId])
+}
+
+model TestResult {
+  id             Int      @id @default(autoincrement())
+  studentId      Int
+  testId         Int
+  correctAnswers Int
+  totalQuestions Int
+  percentage     Float
+  submittedAt    DateTime @default(now())
+
+  student User            @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  test    Test            @relation(fields: [testId], references: [id], onDelete: Cascade)
+  answers StudentAnswer[]
+
+  @@index([studentId])
+  @@index([testId])
+}
+
+model StudentAnswer {
+  id               Int     @id @default(autoincrement())
+  testResultId     Int
+  questionId       Int
+  selectedOptionId Int?
+  isCorrect        Boolean
+
+  testResult     TestResult   @relation(fields: [testResultId], references: [id], onDelete: Cascade)
+  question       TestQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  selectedOption TestOption?  @relation(fields: [selectedOptionId], references: [id], onDelete: SetNull)
+
+  @@index([testResultId])
+}
+
+/// Which terms a student has opened (used for dashboard progress)
+model StudentProgress {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  termId    Int
+  viewedAt  DateTime @default(now())
+
+  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  term    Term @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, termId])
+}
