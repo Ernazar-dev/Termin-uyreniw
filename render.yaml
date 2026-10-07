@@ -2,7 +2,7 @@ services:
   # Backend API — Express + Prisma Web Service
   - type: web
     name: kaa-terms-api
-    env: node
+    runtime: node
     plan: free
     rootDir: backend
     buildCommand: npm install && npm run build
@@ -34,8 +34,9 @@ services:
         value: gemini-2.0-flash,gemini-1.5-flash-8b
 
   # Frontend — React Single Page Application (SPA) Static Site
-  - type: static
+  - type: web
     name: kaa-terms-web
+    runtime: static
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
