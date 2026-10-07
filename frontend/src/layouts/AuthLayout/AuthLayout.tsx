@@ -20,10 +20,12 @@ export const AuthLayout = ({ title, subtitle, children, footer }: AuthLayoutProp
         <span>Termin Úyreniw</span>
       </Link>
       <Card className={styles.card}>
-        <Typography.Title level={3} className={styles.title}>
-          {title}
-        </Typography.Title>
-        {subtitle && <Typography.Paragraph type="secondary">{subtitle}</Typography.Paragraph>}
+        <div className={styles.header}>
+          <Typography.Title level={3} className={styles.title}>
+            {title}
+          </Typography.Title>
+          {subtitle && <Typography.Paragraph type="secondary">{subtitle}</Typography.Paragraph>}
+        </div>
         {children}
       </Card>
       {footer && <div className={styles.footer}>{footer}</div>}

@@ -35,7 +35,6 @@ const Login = () => {
   return (
     <AuthLayout
       title="Kiriw"
-      subtitle="Qaytıp kelgenińizden quwanıshlımız!"
       footer={
         <>
           Akkauntıńız joq pa? <Link to={ROUTES.register} state={location.state}>Dizimnen ótiw</Link>
