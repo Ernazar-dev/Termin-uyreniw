@@ -37,7 +37,7 @@ const STUDENT_NAV: StudentNavItem[] = [
   { path: ROUTES.student.games, label: 'Oyınlar', icon: <PlayCircleOutlined /> },
   { path: ROUTES.student.tests, label: 'Testler', icon: <FileDoneOutlined /> },
   { path: ROUTES.student.results, label: 'Nátiyjeler', icon: <BarChartOutlined />, personal: true },
-  { path: ROUTES.student.ai, label: 'Aqıllı járdemshi', icon: <MessageOutlined /> },
+  { path: ROUTES.student.ai, label: 'Aqıllı járdemshi', icon: <MessageOutlined />, requiresAuth: true },
 ];
 
 /** Global term search — opens the Terms page with the query. */

@@ -11,6 +11,7 @@ import { ROUTES } from '../../../utils/constants';
 import { getErrorMessage } from '../../../utils/error';
 import { useAuth } from '../../../hooks/useAuth';
 import { useActivityEntry } from '../../../hooks/useActivityEntry';
+import { ActivityRoute } from '../../../routes/ActivityRoute';
 import { TestDocument } from './TestDocument';
 import sheet from './TestPlay.module.scss';
 import { readTestDraft, testDraftKey } from '../../../utils/testDraft';
@@ -70,14 +71,25 @@ const TestSession = ({ id }: { id: number }) => {
     return readTestDraft(testDraftKey(id));
   });
   const [submitting, setSubmitting] = useState(false);
-  const { data, loading, error, reload } = useRequest(() => testsApi.get(id), [id]);
+  const { data, loading, error, reload } = useRequest(() => (user ? testsApi.get(id) : Promise.reject(new Error('Auth required'))), [id, user]);
 
   useEffect(() => {
+    if (!user) return;
     try {
       sessionStorage.setItem(draftKey, JSON.stringify({ at: Date.now(), answers }));
-      if (user) sessionStorage.removeItem(testDraftKey(id));
+      sessionStorage.removeItem(testDraftKey(id));
     } catch { /* Storage can be unavailable. */ }
   }, [answers, draftKey, id, user]);
+
+  if (!user) {
+    return (
+      <ActivityRoute
+        description="Testti baslaw hám nátiyjeńizdi saqlaw ushın akkauntıńızǵa kiriń."
+        backTo={ROUTES.student.tests}
+        backLabel="Testler dizimine qaytıw"
+      />
+    );
+  }
 
   if (error) return <ErrorState message={error} onRetry={reload} />;
   if (loading || !data) return <ContentSkeleton />;

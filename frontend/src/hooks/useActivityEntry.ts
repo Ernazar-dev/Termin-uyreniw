@@ -14,7 +14,7 @@ export const useActivityEntry = () => {
   return (path: string, content: string = DEFAULT_CONTENT) => {
     if (user) { navigate(path); return; }
     modal.confirm({
-      title: 'Birge dawam etemiz be?',
+      title: 'Akkauntqa kiriń',
       content,
       okText: 'Kiriw',
       cancelText: 'Házir emes',

@@ -3,9 +3,10 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { PageLoader } from '../components';
 import { StudentLayout } from '../layouts/StudentLayout';
 import { TeacherLayout } from '../layouts/TeacherLayout';
-import { ROLE_HOME, ROLES, ROUTES } from '../utils/constants';
+import { ROLE_HOME, ROLES, ROUTES, TEXT } from '../utils/constants';
 import { useAuth } from '../hooks/useAuth';
 import * as Pages from './lazyPages';
+import { ActivityRoute } from './ActivityRoute';
 import { GuestRoute, ProtectedRoute } from './ProtectedRoute';
 import { RoleRoute } from './RoleRoute';
 
@@ -54,8 +55,28 @@ export const AppRouter = () => (
         <Route path="games" element={<Pages.StudentGames />} />
         <Route path="games/:chapterId" element={<Pages.StudentGamePlay />} />
         <Route path="tests" element={<Pages.StudentTests />} />
-        <Route path="tests/:testId" element={<Pages.StudentTestPlay />} />
-        <Route path="ai" element={<Pages.StudentAIChat />} />
+        <Route
+          element={
+            <ActivityRoute
+              description="Testti baslaw hám nátiyjeńizdi saqlaw ushın akkauntıńızǵa kiriń."
+              backTo={ROUTES.student.tests}
+              backLabel="Testler dizimine qaytıw"
+            />
+          }
+        >
+          <Route path="tests/:testId" element={<Pages.StudentTestPlay />} />
+        </Route>
+        <Route
+          element={
+            <ActivityRoute
+              description={TEXT.aiLoginHint}
+              backTo={ROUTES.home}
+              backLabel="Bas betke qaytıw"
+            />
+          }
+        >
+          <Route path="ai" element={<Pages.StudentAIChat />} />
+        </Route>
         <Route element={<ProtectedRoute />}>
           <Route element={<RoleRoute role={ROLES.STUDENT} />}>
             <Route path="dashboard" element={<Pages.StudentDashboard />} />

@@ -31,10 +31,10 @@ const catalogAccess: typeof authenticate = (req, res, next) =>
 apiRouter.use('/classes', catalogAccess, classRouter);
 apiRouter.use('/chapters', catalogAccess, chapterRouter);
 apiRouter.use('/terms', catalogAccess, termRouter);
-// Test reading is public; submissions and teacher writes remain authenticated.
+// Test list is public; test questions, documents, submissions and teacher writes require authentication.
 apiRouter.get('/tests', optionalAuthenticate, testController.list);
-apiRouter.get('/tests/:id', optionalAuthenticate, testController.getById);
-apiRouter.get('/tests/:id/document', optionalAuthenticate, testController.document);
+apiRouter.get('/tests/:id', authenticate, testController.getById);
+apiRouter.get('/tests/:id/document', authenticate, testController.document);
 // Practice games do not save scores and can be played without an account.
 apiRouter.get('/games', optionalAuthenticate, gameController.list);
 apiRouter.get('/games/:id', optionalAuthenticate, gameController.getById);

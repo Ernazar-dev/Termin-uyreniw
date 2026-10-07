@@ -12,14 +12,16 @@ import {
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ROUTES } from '../../utils/constants';
+import { useAuth } from '../../hooks/useAuth';
+import { useActivityEntry } from '../../hooks/useActivityEntry';
+import { ROUTES, TEXT } from '../../utils/constants';
 import styles from './LearningWelcome.module.scss';
 
 const shortcuts = [
   { icon: <BookOutlined />, title: 'Terminler', text: 'Oqıń', to: ROUTES.student.terms, tone: 'indigo' },
   { icon: <PlayCircleOutlined />, title: 'Oyınlar', text: 'Oynań', to: ROUTES.student.games, tone: 'amber' },
   { icon: <FileDoneOutlined />, title: 'Testler', text: 'Sınań', to: ROUTES.student.tests, tone: 'teal' },
-  { icon: <RobotOutlined />, title: 'Aqıllı járdemshi', text: 'Sorań', to: ROUTES.student.ai, tone: 'pink' },
+  { icon: <RobotOutlined />, title: 'Aqıllı járdemshi', text: 'Sorań', to: ROUTES.student.ai, tone: 'pink', requiresAuth: true },
 ] as const;
 
 /** Rotating flashcards in the hero — a quick taste of what the platform teaches. */
@@ -32,6 +34,8 @@ const FLASHCARDS = [
 const ROTATE_MS = 5200;
 
 export const LearningWelcome = () => {
+  const { user } = useAuth();
+  const enterActivity = useActivityEntry();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -130,21 +134,30 @@ export const LearningWelcome = () => {
       </section>
 
       <nav className={styles.shortcuts} aria-label="Úyreniw bólimleri">
-        {shortcuts.map((item, order) => (
-          <Link
-            key={item.to}
-            to={item.to}
-            className={`${styles.shortcut} ${styles[item.tone]}`}
-            style={{ animationDelay: `${200 + order * 90}ms` }}
-          >
-            <span className={styles.icon}>{item.icon}</span>
-            <span className={styles.shortcutText}>
-              <strong>{item.title}</strong>
-              <small>{item.text}</small>
-            </span>
-            <ArrowRightOutlined className={styles.arrow} />
-          </Link>
-        ))}
+        {shortcuts.map((item, order) => {
+          const handleClick = (event: React.MouseEvent) => {
+            if ('requiresAuth' in item && item.requiresAuth && !user) {
+              event.preventDefault();
+              enterActivity(item.to, TEXT.aiLoginHint);
+            }
+          };
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={handleClick}
+              className={`${styles.shortcut} ${styles[item.tone]}`}
+              style={{ animationDelay: `${200 + order * 90}ms` }}
+            >
+              <span className={styles.icon}>{item.icon}</span>
+              <span className={styles.shortcutText}>
+                <strong>{item.title}</strong>
+                <small>{item.text}</small>
+              </span>
+              <ArrowRightOutlined className={styles.arrow} />
+            </Link>
+          );
+        })}
       </nav>
     </div>
   );

@@ -12,13 +12,17 @@ import {
   PageHeader,
   TermCard,
 } from '../../../components';
+import { useAuth } from '../../../hooks/useAuth';
+import { useActivityEntry } from '../../../hooks/useActivityEntry';
 import { useCatalog } from '../../../hooks/useCatalog';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { useRequest } from '../../../hooks/useRequest';
 import styles from '../../../styles/page.module.scss';
-import { DEFAULT_PAGE_SIZE, ROUTES } from '../../../utils/constants';
+import { DEFAULT_PAGE_SIZE, ROUTES, TEXT } from '../../../utils/constants';
 
 const StudentTerms = () => {
+  const { user } = useAuth();
+  const enterActivity = useActivityEntry();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const urlSearch = searchParams.get('search') ?? '';
@@ -100,7 +104,16 @@ const StudentTerms = () => {
           }
           action={
             debouncedSearch && (
-              <Link to={ROUTES.student.ai} state={{ question: `${debouncedSearch} degen ne?` }}>
+              <Link
+                to={ROUTES.student.ai}
+                state={{ question: `${debouncedSearch} degen ne?` }}
+                onClick={(e) => {
+                  if (!user) {
+                    e.preventDefault();
+                    enterActivity(ROUTES.student.ai, TEXT.aiLoginHint);
+                  }
+                }}
+              >
                 Aqıllı járdemshige ótiw
               </Link>
             )

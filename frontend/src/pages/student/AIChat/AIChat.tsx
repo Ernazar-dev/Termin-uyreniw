@@ -6,6 +6,7 @@ import { aiApi } from '../../../api';
 import { useAuth } from '../../../hooks/useAuth';
 import { useActivityEntry } from '../../../hooks/useActivityEntry';
 import { PageHeader } from '../../../components';
+import { ActivityRoute } from '../../../routes/ActivityRoute';
 import type { AnswerSource, AssistantAnswer } from '../../../types/models';
 import { ROUTES, TEXT } from '../../../utils/constants';
 import { getErrorMessage } from '../../../utils/error';
@@ -73,6 +74,22 @@ const StudentAIChat = () => {
       void send();
     }
   };
+
+  if (!user) {
+    return (
+      <div className={styles.page}>
+        <PageHeader
+          title="Aqıllı járdemshi"
+          subtitle="Platformadan tappaǵan terminiń haqqında qaraqalpaq tilinde soraw beriń"
+        />
+        <ActivityRoute
+          description={TEXT.aiLoginHint}
+          backTo={ROUTES.home}
+          backLabel="Bas betke qaytıw"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>

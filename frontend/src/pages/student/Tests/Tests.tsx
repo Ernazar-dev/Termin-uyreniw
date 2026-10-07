@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { testsApi } from '../../../api';
 import { CardsSkeleton, ClassSelect, EmptyState, ErrorState, PageHeader, ScoreTag } from '../../../components';
 import { useAuth } from '../../../hooks/useAuth';
+import { useActivityEntry } from '../../../hooks/useActivityEntry';
 import { useCatalog } from '../../../hooks/useCatalog';
 import { useRequest } from '../../../hooks/useRequest';
 import styles from '../../../styles/page.module.scss';
@@ -11,6 +12,7 @@ import { ROUTES } from '../../../utils/constants';
 
 const StudentTests = () => {
   const { user } = useAuth();
+  const enterActivity = useActivityEntry();
   const navigate = useNavigate();
   const [classId, setClassId] = useState<number | undefined>(user?.classId ?? undefined);
   const { classes } = useCatalog();
@@ -60,7 +62,16 @@ const StudentTests = () => {
                 <Button
                   type={test.lastResult ? 'default' : 'primary'}
                   disabled={test._count.questions === 0}
-                  onClick={() => navigate(ROUTES.student.test(test.id))}
+                  onClick={() => {
+                    if (!user) {
+                      enterActivity(
+                        ROUTES.student.test(test.id),
+                        'Testti baslaw hám nátiyjeńizdi saqlaw ushın akkauntıńızǵa kiriń.',
+                      );
+                      return;
+                    }
+                    navigate(ROUTES.student.test(test.id));
+                  }}
                 >
                   {test.lastResult ? 'Qayta tapsırıw' : 'Baslaw'}
                 </Button>

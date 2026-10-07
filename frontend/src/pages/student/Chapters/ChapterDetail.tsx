@@ -5,12 +5,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { chaptersApi, termsApi } from '../../../api';
 import { CardsSkeleton, ContentSkeleton, EmptyState, ErrorState, PageHeader, TermCard } from '../../../components';
 import { useRequest } from '../../../hooks/useRequest';
+import { useAuth } from '../../../hooks/useAuth';
+import { useActivityEntry } from '../../../hooks/useActivityEntry';
 import styles from '../../../styles/page.module.scss';
 import { ROUTES } from '../../../utils/constants';
 
 const TERMS_PAGE_SIZE = 24;
 
 const ChapterContent = ({ id }: { id: number }) => {
+  const { user } = useAuth();
+  const enterActivity = useActivityEntry();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const chapter = useRequest(() => chaptersApi.get(id), [id]);
@@ -94,7 +98,16 @@ const ChapterContent = ({ id }: { id: number }) => {
                   type="primary"
                   icon={<FileDoneOutlined />}
                   disabled={test._count.questions === 0}
-                  onClick={() => navigate(ROUTES.student.test(test.id))}
+                  onClick={() => {
+                    if (!user) {
+                      enterActivity(
+                        ROUTES.student.test(test.id),
+                        'Testti baslaw hám nátiyjeńizdi saqlaw ushın akkauntıńızǵa kiriń.',
+                      );
+                      return;
+                    }
+                    navigate(ROUTES.student.test(test.id));
+                  }}
                 >
                   Testti baslaw
                 </Button>

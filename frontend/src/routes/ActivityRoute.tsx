@@ -26,7 +26,7 @@ export const ActivityRoute = ({
   return (
     <Card style={{ maxWidth: 560, margin: '48px auto', textAlign: 'center' }}>
       <LockOutlined style={{ fontSize: 32, color: COLORS.primary, marginBottom: 12 }} />
-      <Typography.Title level={3}>Dawam etiw ushın kiriń</Typography.Title>
+      <Typography.Title level={3}>Akkauntqa kiriń</Typography.Title>
       <Typography.Paragraph type="secondary">{description}</Typography.Paragraph>
       <Space wrap style={{ justifyContent: 'center' }}>
         <Link to={ROUTES.login} state={{ from }}><Button type="primary">Kiriw</Button></Link>
