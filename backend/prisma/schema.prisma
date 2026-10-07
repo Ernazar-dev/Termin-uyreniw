@@ -85,7 +85,7 @@ model Term {
   games    Game[]
   progress StudentProgress[]
 
-  @@index([chapterId])
+  @@index([chapterId, name])
   @@index([name])
 }
 
@@ -134,7 +134,7 @@ model Test {
   questions TestQuestion[]
   results   TestResult[]
 
-  @@index([chapterId])
+  @@index([chapterId, createdAt])
 }
 
 model TestQuestion {
@@ -147,7 +147,7 @@ model TestQuestion {
   options TestOption[]
   answers StudentAnswer[]
 
-  @@index([testId])
+  @@index([testId, order])
 }
 
 model TestOption {
@@ -175,8 +175,9 @@ model TestResult {
   test    Test            @relation(fields: [testId], references: [id], onDelete: Cascade)
   answers StudentAnswer[]
 
-  @@index([studentId])
+  @@index([studentId, submittedAt])
   @@index([testId])
+  @@index([submittedAt])
 }
 
 model StudentAnswer {
@@ -204,4 +205,5 @@ model StudentProgress {
   term    Term @relation(fields: [termId], references: [id], onDelete: Cascade)
 
   @@unique([studentId, termId])
+  @@index([termId])
 }

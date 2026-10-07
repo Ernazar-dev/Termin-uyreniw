@@ -15,7 +15,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     authApi
       .me()
       .then(setUser)
-      .catch(() => tokenStorage.clear())
+      // A 401 already clears the token (axios interceptor). A network error or a sleeping server must not log the user out.
+      .catch(() => undefined)
       .finally(() => setInitializing(false));
   }, []);
 

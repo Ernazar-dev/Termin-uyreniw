@@ -60,19 +60,24 @@ export const termService = {
     const term = await prisma.term.findUnique({ where: { id }, include: termInclude });
     if (!term) throw ApiError.notFound('Termin tabılmadı');
 
-    if (user?.role === Role.STUDENT) {
-      await prisma.studentProgress.upsert({
-        where: { studentId_termId: { studentId: user.id, termId: id } },
-        create: { studentId: user.id, termId: id },
-        update: { viewedAt: new Date() },
-      });
-    }
+    // Progress tracking and the sibling list are independent, so they run in parallel
+    const recordProgress =
+      user?.role === Role.STUDENT
+        ? prisma.studentProgress.upsert({
+            where: { studentId_termId: { studentId: user.id, termId: id } },
+            create: { studentId: user.id, termId: id },
+            update: { viewedAt: new Date() },
+          })
+        : Promise.resolve();
 
-    const siblings = await prisma.term.findMany({
-      where: { chapterId: term.chapterId },
-      orderBy: { name: 'asc' },
-      select: { id: true, name: true },
-    });
+    const [siblings] = await Promise.all([
+      prisma.term.findMany({
+        where: { chapterId: term.chapterId },
+        orderBy: { name: 'asc' },
+        select: { id: true, name: true },
+      }),
+      recordProgress,
+    ]);
 
     return { ...term, siblings };
   },

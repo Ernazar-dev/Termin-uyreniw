@@ -37,6 +37,13 @@ const toApiError = (err: unknown): ApiError => {
     return ApiError.badRequest('JSON formatı qáte');
   }
 
+  // body-parser rejections (oversized or malformed bodies) are client errors, not server failures
+  const parserError = err as { type?: string } | null;
+  if (parserError?.type === 'entity.too.large') return new ApiError(413, 'Jiberilgen maǵlıwmat kólemi artıq úlken');
+  if (parserError?.type?.startsWith('entity.') || err instanceof URIError) {
+    return ApiError.badRequest('Soraw formatı qáte');
+  }
+
   return new ApiError(500, 'Serverde qátelik júz berdi');
 };
 
