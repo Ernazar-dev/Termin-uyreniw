@@ -10,7 +10,7 @@ import { studentController } from '../controllers/student.controller';
 import { termController } from '../controllers/term.controller';
 import { testController } from '../controllers/test.controller';
 import { authorize } from '../middlewares/auth.middleware';
-import { aiLimiter } from '../middlewares/rateLimit.middleware';
+import { aiLimiter, submitLimiter } from '../middlewares/rateLimit.middleware';
 import { uploadImage, uploadTestFile } from '../middlewares/upload.middleware';
 
 const teacherOnly = authorize(Role.TEACHER);
@@ -47,7 +47,7 @@ testRouter.get('/:id/document', testController.document);
 // Ready-made PDF / Word test: the sheet is uploaded, the teacher only enters the answer key
 testRouter.post('/from-file', teacherOnly, uploadTestFile, testController.createFromFile);
 testRouter.put('/:id/from-file', teacherOnly, uploadTestFile, testController.updateFromFile);
-testRouter.post('/:id/submit', studentOnly, testController.submit);
+testRouter.post('/:id/submit', studentOnly, submitLimiter, testController.submit);
 
 export const studentRouter = Router();
 studentRouter.use(teacherOnly);

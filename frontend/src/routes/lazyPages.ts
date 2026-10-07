@@ -2,6 +2,9 @@ import { lazy } from 'react';
 
 /** Every page is a separate chunk, loaded only when its route is opened. */
 
+/** Admin shell (sidebar, icons) is never downloaded by students. */
+export const TeacherLayout = lazy(() => import('../layouts/TeacherLayout').then((m) => ({ default: m.TeacherLayout })));
+
 export const HomePage = lazy(() => import('../pages/public/Home/Home'));
 export const NotFoundPage = lazy(() => import('../pages/public/NotFound/NotFound'));
 

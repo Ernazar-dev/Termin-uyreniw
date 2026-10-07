@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PageLoader } from '../components';
 import { StudentLayout } from '../layouts/StudentLayout';
-import { TeacherLayout } from '../layouts/TeacherLayout';
 import { ROLE_HOME, ROLES, ROUTES, TEXT } from '../utils/constants';
 import { useAuth } from '../hooks/useAuth';
 import * as Pages from './lazyPages';
@@ -30,7 +29,7 @@ export const AppRouter = () => (
 
       <Route element={<ProtectedRoute />}>
         <Route element={<RoleRoute role={ROLES.TEACHER} />}>
-          <Route path={ROUTES.teacher.root} element={<TeacherLayout />}>
+          <Route path={ROUTES.teacher.root} element={<Pages.TeacherLayout />}>
             <Route index element={<Navigate to={ROUTES.teacher.dashboard} replace />} />
             <Route path="dashboard" element={<Pages.TeacherDashboard />} />
             <Route path="classes" element={<Pages.TeacherClasses />} />

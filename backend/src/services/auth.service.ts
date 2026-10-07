@@ -12,6 +12,9 @@ interface AuthResponse {
   user: PublicUser;
 }
 
+// Compared against when the login does not exist, so response time does not reveal which logins are registered.
+const DUMMY_HASH = bcrypt.hashSync('timing-equalizer', BCRYPT_ROUNDS);
+
 export const hashPassword = (password: string) => bcrypt.hash(password, BCRYPT_ROUNDS);
 
 export const ensureClassExists = async (classId: number) => {
@@ -33,7 +36,7 @@ export const ensureLoginIsFree = async (login: string, exceptUserId?: number) =>
 export const authService = {
   async login({ login, password }: LoginInput): Promise<AuthResponse> {
     const user = await findUserByLogin(login);
-    const isValid = user ? await bcrypt.compare(password, user.password) : false;
+    const isValid = await bcrypt.compare(password, user?.password ?? DUMMY_HASH);
 
     if (!user || !isValid) {
       throw ApiError.unauthorized('Kiriw atı yamasa parol qáte');

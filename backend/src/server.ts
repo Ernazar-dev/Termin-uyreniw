@@ -10,6 +10,11 @@ const start = async () => {
     console.log(`API is running on http://localhost:${env.PORT}/api`);
   });
 
+  // Slowloris-style protection: do not let clients hold sockets open with slow headers or bodies.
+  server.headersTimeout = 20_000;
+  server.requestTimeout = 60_000;
+  server.keepAliveTimeout = 5_000;
+
   const shutdown = async (signal: string) => {
     console.log(`${signal} received, shutting down...`);
     server.close();
