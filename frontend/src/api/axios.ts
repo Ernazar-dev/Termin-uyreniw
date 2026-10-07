@@ -3,7 +3,8 @@ import type { ApiSuccess } from '../types/api';
 import { AUTH_LOGOUT_EVENT } from '../utils/constants';
 import { tokenStorage } from '../utils/storage';
 
-export const API_URL: string = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/+$/, '');
+const rawApiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').trim().replace(/\/+$/, '');
+export const API_URL: string = rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`;
 
 /** Origin of the API server, used to build absolute URLs for uploaded images. */
 export const API_ORIGIN = new URL(API_URL, window.location.origin).origin;

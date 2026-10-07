@@ -14,7 +14,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
-    "db:demo": "node scripts/reset-demo.cjs --apply"
+    "db:demo": "node scripts/reset-demo.cjs --apply",
+    "db:to-neon": "node scripts/copy-to-neon.cjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
