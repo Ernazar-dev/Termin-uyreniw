@@ -2,7 +2,7 @@ import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Typography, type MenuProps } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { ROLE_LABELS, ROUTES } from '../../utils/constants';
+import { ROUTES } from '../../utils/constants';
 import styles from './UserMenu.module.scss';
 
 interface UserMenuProps {
@@ -28,9 +28,6 @@ export const UserMenu = ({ showName = true, compact = false }: UserMenuProps) =>
   }
 
   const items: MenuProps['items'] = [
-    { key: 'name', label: user.fullName, disabled: true },
-    { key: 'role', label: ROLE_LABELS[user.role], disabled: true },
-    { type: 'divider' },
     {
       key: 'logout',
       icon: <LogoutOutlined />,
