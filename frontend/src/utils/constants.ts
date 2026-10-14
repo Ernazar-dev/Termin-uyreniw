@@ -45,6 +45,10 @@ export const ROLE_HOME: Record<Role, string> = {
   STUDENT: ROUTES.student.dashboard,
 };
 
+/** `/?view=site` — the admin panel opens the public site this way, without signing the teacher out. */
+export const SITE_PREVIEW_PARAM = 'view';
+export const SITE_PREVIEW_URL = `${ROUTES.home}?${SITE_PREVIEW_PARAM}=site`;
+
 export const ROLE_LABELS: Record<Role, string> = {
   TEACHER: 'Oqıtıwshı',
   STUDENT: 'Oqıwshı',

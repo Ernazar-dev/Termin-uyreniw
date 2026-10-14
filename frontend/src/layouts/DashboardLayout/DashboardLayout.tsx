@@ -1,9 +1,9 @@
-import { MenuOutlined } from '@ant-design/icons';
+import { GlobalOutlined, MenuOutlined } from '@ant-design/icons';
 import { Button, Drawer, Grid, Layout, Menu, type MenuProps } from 'antd';
 import { Suspense, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { PageLoader } from '../../components';
-import { ROUTES } from '../../utils/constants';
+import { ROUTES, SITE_PREVIEW_URL } from '../../utils/constants';
 import { UserMenu } from '../UserMenu/UserMenu';
 import logoImg from '../../images/logo.png';
 import styles from './DashboardLayout.module.scss';
@@ -108,6 +108,16 @@ export const DashboardLayout = ({ navItems }: DashboardLayoutProps) => {
           <div className={styles.headerExtra}>
             <span className={styles.headerLabel}>{navItems.find((item) => item.path === activeKey)?.label}</span>
           </div>
+          {/* New tab: the panel stays open, and the teacher stays signed in on both. */}
+          <Button
+            href={SITE_PREVIEW_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            icon={<GlobalOutlined />}
+            aria-label="Saytqa ótiw (jańa betde ashıladı)"
+          >
+            {screens.sm && 'Saytqa ótiw'}
+          </Button>
           <UserMenu showName={Boolean(screens.md)} />
         </Header>
 

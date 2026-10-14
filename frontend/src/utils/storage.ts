@@ -24,3 +24,26 @@ export const tokenStorage = {
     }
   },
 };
+
+const SITE_PREVIEW_KEY = 'kaa_site_preview';
+
+/**
+ * Per-tab flag: a teacher opened the public site from the admin panel.
+ * sessionStorage keeps it scoped to that tab, so the panel tab keeps its normal redirects.
+ */
+export const sitePreview = {
+  isOn(): boolean {
+    try {
+      return sessionStorage.getItem(SITE_PREVIEW_KEY) === '1';
+    } catch {
+      return false;
+    }
+  },
+  enable() {
+    try {
+      sessionStorage.setItem(SITE_PREVIEW_KEY, '1');
+    } catch {
+      // ignore
+    }
+  },
+};

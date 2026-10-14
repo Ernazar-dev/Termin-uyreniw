@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
+import { Role } from '@prisma/client';
 
 const TTL_MS = 60 * 1000;
 const MAX_ENTRIES = 500;
@@ -11,14 +12,17 @@ interface Entry {
 const store = new Map<string, Entry>();
 
 /**
- * Class and chapter lists carry counts of students, terms, games and tests, so a write anywhere in the API
- * can make them stale. Clears the cache both when a write arrives and after it has finished, so a read
- * that happens in between cannot re-cache old data.
+ * Class and chapter lists carry counts of students, terms, games and tests, so a teacher's write anywhere
+ * in the API can make them stale. Clearing after the response also drops anything a concurrent read cached.
+ * Only successful teacher writes clear it: otherwise anonymous junk POSTs could flush the cache on every
+ * request and push all catalog reads onto the database. Student self-registration may show stale counts
+ * for at most TTL_MS.
  */
 export const invalidateCatalogOnWrite = (req: Request, res: Response, next: NextFunction) => {
   if (req.method !== 'GET' && req.method !== 'HEAD' && req.method !== 'OPTIONS') {
-    store.clear();
-    res.on('finish', () => store.clear());
+    res.on('finish', () => {
+      if (res.statusCode < 400 && req.user?.role === Role.TEACHER) store.clear();
+    });
   }
   next();
 };
@@ -31,10 +35,7 @@ export const invalidateCatalogOnWrite = (req: Request, res: Response, next: Next
 export const catalogCache =
   (shouldCache: (req: Request) => boolean = () => true) =>
   (req: Request, res: Response, next: NextFunction) => {
-    if (req.method !== 'GET' && req.method !== 'HEAD') {
-      store.clear();
-      return next();
-    }
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (!shouldCache(req)) return next();
 
     const key = req.originalUrl;

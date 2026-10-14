@@ -29,6 +29,20 @@ export const authLimiter = rateLimit({
   message: limitMessage('Kiriw urınıwları kóp. 15 minuttan keyin qaytalań'),
 });
 
+/**
+ * Per-account brute-force guard: authLimiter counts per IP, so a botnet spreading guesses for one login
+ * (e.g. the admin) over many IPs would slip past it. Failed attempts are counted per login name instead.
+ */
+export const loginAccountLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  skipSuccessfulRequests: true,
+  keyGenerator: (req) => `login:${String(req.body?.login ?? '').trim().toLowerCase()}`,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: limitMessage('Bul akkauntqa kiriw urınıwları kóp. 15 minuttan keyin qaytalań'),
+});
+
 export const aiLimiter = rateLimit({
   windowMs: 60 * 1000,
   limit: 15,

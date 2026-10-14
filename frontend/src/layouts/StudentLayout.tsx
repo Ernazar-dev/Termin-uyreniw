@@ -10,6 +10,7 @@ import {
   PlayCircleOutlined,
   ReadOutlined,
   SearchOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { Button, Drawer, Grid, Input, Popover } from 'antd';
 import { Suspense, useLayoutEffect, useRef, useState, type MouseEvent } from 'react';
@@ -130,6 +131,13 @@ export const StudentLayout = () => {
               >
                 <Button shape="circle" icon={<SearchOutlined />} aria-label="Termindi izlew" />
               </Popover>
+            )}
+            {user?.role === ROLES.TEACHER && (
+              <Link to={ROUTES.teacher.dashboard}>
+                <Button type="primary" icon={<SettingOutlined />} aria-label="Basqarıw paneline qaytıw">
+                  {screens.sm && 'Basqarıw paneli'}
+                </Button>
+              </Link>
             )}
             <UserMenu showName={Boolean(screens.xxl)} compact={!screens.sm} />
             {!isDesktop && (

@@ -1,8 +1,9 @@
 import { Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useSearchParams } from 'react-router-dom';
 import { PageLoader } from '../components';
 import { StudentLayout } from '../layouts/StudentLayout';
-import { ROLE_HOME, ROLES, ROUTES, TEXT } from '../utils/constants';
+import { ROLE_HOME, ROLES, ROUTES, SITE_PREVIEW_PARAM, TEXT } from '../utils/constants';
+import { sitePreview } from '../utils/storage';
 import { useAuth } from '../hooks/useAuth';
 import * as Pages from './lazyPages';
 import { ActivityRoute } from './ActivityRoute';
@@ -11,8 +12,13 @@ import { RoleRoute } from './RoleRoute';
 
 const EntryPage = () => {
   const { user, initializing } = useAuth();
+  const [searchParams] = useSearchParams();
   if (initializing) return <PageLoader fullScreen />;
-  return user ? <Navigate to={ROLE_HOME[user.role]} replace /> : <Pages.HomePage />;
+  // A teacher who opened the site from the panel stays on the public pages in that tab.
+  const isTeacher = user?.role === ROLES.TEACHER;
+  if (isTeacher && searchParams.has(SITE_PREVIEW_PARAM)) sitePreview.enable();
+  if (user && !(isTeacher && sitePreview.isOn())) return <Navigate to={ROLE_HOME[user.role]} replace />;
+  return <Pages.HomePage />;
 };
 
 export const AppRouter = () => (
